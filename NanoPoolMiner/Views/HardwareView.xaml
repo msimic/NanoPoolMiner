@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="NanoPoolMiner.Views.HardwareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:NanoPoolMiner.Views"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             VerticalAlignment="Stretch" MinWidth="200"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <materialDesign:Card Padding="15" Margin="5,0,0,5" Grid.ColumnSpan="2" Grid.Row="2" VerticalAlignment="Stretch">
+            <ScrollViewer>
+                <ItemsControl x:Name="Hardware" Margin="0,0,5,0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <materialDesign:Card Margin="2" Height="30" Padding="0">
+                                <Grid>
+                                    <ProgressBar Opacity="0.3" Margin="0" Visibility="{Binding ProgressIsVisible, Converter={StaticResource BooleanToVisibilityConverter}}" VerticalAlignment="Stretch" Height="30" IsIndeterminate="True"></ProgressBar>
+                                    <StackPanel Margin="3" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <CheckBox cal:Message.Attach="[Event Checked] = [Action Enable($dataContext)];[Event Unchecked] = [Action Disable($dataContext)]" 
+                                                  Margin="0,0,5,0" ToolTip="Enable or disable this device (only enabled devices are used for mining)"></CheckBox>
+                                        <Button Style="{StaticResource emptyButton}" cal:Message.Attach="Edit($dataContext)" ToolTip="Configure this device">
+                                            <TextBlock>
+                                                <Hyperlink Style="{DynamicResource MaterialDesignBody1Hyperlink}">
+                                                    <TextBlock FontWeight="Bold" Text="{Binding Name}"></TextBlock>
+                                                    <TextBlock xml:space="preserve">  (</TextBlock>
+                                                    <TextBlock Text="{Binding Status}"></TextBlock>
+                                                    <TextBlock>)</TextBlock>
+                                                </Hyperlink>
+                                            </TextBlock>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                            </materialDesign:Card>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </materialDesign:Card>
+        <Grid Background="#77777777" Margin="10,0,0,10" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ProgressBar Width="50" Height="50" Style="{StaticResource MaterialDesignCircularProgressBar}"                     
+                                            Value="0" IsIndeterminate="True"
+                                            VerticalAlignment="Center" HorizontalAlignment="Center" Margin="12 12 12 12"/>
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,100" x:Name="LoadingMessage"></Label>
+        </Grid>
+    </Grid>
+
+</UserControl>

@@ -1,0 +1,126 @@
+﻿<UserControl x:Class="NanoPoolMiner.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:local="clr-namespace:NanoPoolMiner.Views"
+             xmlns:materialDesignWpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="13"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"        
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <materialDesign:Card Padding="15" Margin="5,5,0,5" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Margin="0,0,20,0">
+                            <Button Style="{StaticResource emptyButton}" x:Name="VisitAccount"  ToolTip="Visit the Nanopool web page for this account">
+                                <TextBlock>
+                                    <Hyperlink Style="{DynamicResource MaterialDesignBody1Hyperlink}">XMR Wallet Address:</Hyperlink>
+                                </TextBlock>
+                            </Button>
+                        </Label>
+                        <Grid Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBox materialDesignWpf:HintAssist.Hint="&lt;Please enter you wallet address&gt;" x:Name="Wallet"></TextBox>
+                            <TextBox Margin="10,0,0,0" Grid.Column="1" ToolTip="Fill this if you are using an exchange wallet with payment ID" materialDesignWpf:HintAssist.Hint="&lt;Optional: Payment ID&gt;" x:Name="PaymentID"></TextBox>
+                        </Grid>
+                        <Label Margin="0,0,20,0" Grid.Row="1">
+                            <Button Style="{StaticResource emptyButton}" x:Name="VisitWorker" ToolTip="Visit the Nanopool web page for this worker">
+                                <TextBlock>
+                                    <Hyperlink Style="{DynamicResource MaterialDesignBody1Hyperlink}">Worker Name:</Hyperlink>
+                                </TextBlock>
+                            </Button>
+                        </Label>
+                        <TextBox materialDesignWpf:HintAssist.Hint="&lt;Please enter you worker name&gt;" Grid.Row="1" Grid.Column="1" x:Name="Worker"></TextBox>
+                    </Grid>
+                </materialDesign:Card>
+                <Controls:TransitioningContentControl Grid.Row="2" Grid.ColumnSpan="2" x:Name="Hardware"></Controls:TransitioningContentControl>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Controls:TransitioningContentControl x:Name="Price"></Controls:TransitioningContentControl>
+                <materialDesign:Card Grid.Row="1" Padding="15" Margin="5,0,5,5" VerticalAlignment="Stretch" MinWidth="200">
+                    <StackPanel>
+                        <Button Style="{DynamicResource MaterialDesignRaisedAccentButton}" Margin="5">Start Mining</Button>
+                        <Button Style="{DynamicResource MaterialDesignRaisedButton}" Margin="5">Stop Mining</Button>
+                        <Button Style="{DynamicResource MaterialDesignRaisedLightButton}" Margin="5" DataContext="{Binding Parent}" x:Name="ShowOptions">Settings</Button>
+                    </StackPanel>
+                </materialDesign:Card>
+            </Grid>
+        </Grid>
+        <ToolBar ToolBarTray.IsLocked="True" Grid.Row="1" VerticalContentAlignment="Center">
+            <Button Margin="5,0,5,0" x:Name="ShowAccountInfo" Padding="2">
+                <Viewbox Width="16" Height="16">
+                    <Canvas Width="24" Height="24">
+                        <Path Stroke="{DynamicResource MaterialDesignBody}" Data="M17.65,6.35C16.2,4.9 14.21,4 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20C15.73,20 18.84,17.45 19.73,14H17.65C16.83,16.33 14.61,18 12,18A6,6 0 0,1 6,12A6,6 0 0,1 12,6C13.66,6 15.14,6.69 16.22,7.78L13,11H20V4L17.65,6.35Z" Fill="{DynamicResource MaterialDesignBody}" />
+                    </Canvas>
+                </Viewbox>
+            </Button>
+            <TextBlock xml:space="preserve" VerticalAlignment="Center">XMR Balance:</TextBlock>
+            <Separator></Separator>
+            <DockPanel VerticalAlignment="Center">
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" x:Name="Balance"></TextBlock>
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" > (</TextBlock>
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" x:Name="BalanceCurrency"></TextBlock>
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" ><Run Text="{Binding Currency}"></Run>) </TextBlock>
+                <Label VerticalAlignment="Center">Unconfirmed:</Label>
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" x:Name="UBalance"></TextBlock>
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" > (</TextBlock>
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" x:Name="UBalanceCurrency"></TextBlock>
+                <TextBlock xml:space="preserve" VerticalAlignment="Center" ><Run Text="{Binding Currency}"></Run>)</TextBlock>
+            </DockPanel>
+            <Separator></Separator>
+            <Label VerticalAlignment="Center">Current Hashrate:</Label>
+            <TextBlock xml:space="preserve" VerticalAlignment="Center" x:Name="Hashrate"></TextBlock>
+            <TextBlock xml:space="preserve" VerticalAlignment="Center" x:Name="HashrateUnit"></TextBlock>
+            <Label VerticalAlignment="Center">Average 1h:</Label>
+            <TextBlock xml:space="preserve" VerticalAlignment="Center" x:Name="Hashrate1h"></TextBlock>
+            <TextBlock xml:space="preserve" VerticalAlignment="Center" Text="{Binding HashrateUnit}"></TextBlock>
+        </ToolBar>
+    </Grid>
+</UserControl>

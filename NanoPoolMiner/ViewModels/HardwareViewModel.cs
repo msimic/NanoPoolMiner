@@ -272,20 +272,20 @@ namespace NanoPoolMiner.ViewModels
                 StringBuilder sb = new StringBuilder();
                 sb.Append(' ');
                 var ss = _h.Sensors.Where(s => s.SensorType == SensorType.Clock).FirstOrDefault();
-                if (ss != null)
+                if (ss != null && ss.Value.HasValue)
                 {
                     had++;
                     sb.Append("Clock: " + (int)ss.Value + "Mhz ");
                 }
                 ss = _h.Sensors.Where(s => s.SensorType == SensorType.Temperature).FirstOrDefault();
-                if (ss != null)
+                if (ss != null && ss.Value.HasValue)
                 {
                     if (had > 0) sb.Append(", ");
                     had++;
                     sb.Append("Temp: " + (int)ss.Value + "°C ");
                 }
                 ss = _h.Sensors.Where(s => s.Name == "CPU Total").FirstOrDefault();
-                if (ss != null)
+                if (ss != null && ss.Value.HasValue)
                 {
                     if (had > 0) sb.Append(", ");
                     had++;
@@ -299,20 +299,20 @@ namespace NanoPoolMiner.ViewModels
                 StringBuilder sb = new StringBuilder();
                 sb.Append(' ');
                 var ss = _h.Sensors.Where(s => s.SensorType == SensorType.Clock).FirstOrDefault();
-                if (ss != null)
+                if (ss != null && ss.Value.HasValue)
                 {
                     had++;
                     sb.Append("Clock: " + (int)ss.Value + "Mhz ");
                 }
                 ss = _h.Sensors.Where(s => s.SensorType == SensorType.Temperature).FirstOrDefault();
-                if (ss != null)
+                if (ss != null && ss.Value.HasValue)
                 {
                     if (had > 0) sb.Append(", ");
                     had++;
                     sb.Append("Temp: " + (int)ss.Value + "°C ");
                 }
-                ss = _h.Sensors.Where(s => s.SensorType == SensorType.Load).FirstOrDefault();
-                if (ss != null)
+                ss = _h.Sensors.Where(s => s.Name == "GPU Core" && s.SensorType == SensorType.Load).FirstOrDefault();
+                if (ss != null && ss.Value.HasValue)
                 {
                     if (had > 0) sb.Append(", ");
                     had++;

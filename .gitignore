@@ -221,3 +221,5 @@ pip-log.txt
 /output
 *.asm
 .vs/NanoPoolMiner/v14/.suo
+NanoPoolMiner.VC.db
+NanoPoolMiner.VC.VC.opendb

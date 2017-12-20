@@ -73,32 +73,35 @@ namespace NanoPoolMiner.ViewModels
         private void OnTimer(object state)
         {
             bool done = false;
-            if (_computer == null)
+            lock (this)
             {
-                _devs = OpenCLDevices.AMDDevices.Enumerate();
-                done = true;
-                var computer = new Computer();
-                computer.CPUEnabled = true;
-                computer.GPUEnabled = true;
-                computer.HardwareAdded += HardwareAdded;
-                computer.HardwareRemoved += HardwareRemoved;
-                computer.Open();
-                _computer = computer;
-            }
-            try
-            {
-                //_computer.Accept(_visitor);
-
-                foreach (var item in Hardware.ToList())
+                if (_computer == null)
                 {
-                    item.Refresh();
+                    _devs = ComputeDevices.Enumerate();
+                    done = true;
+                    var computer = new Computer();
+                    computer.CPUEnabled = true;
+                    computer.GPUEnabled = true;
+                    computer.HardwareAdded += HardwareAdded;
+                    computer.HardwareRemoved += HardwareRemoved;
+                    computer.Open();
+                    _computer = computer;
                 }
-            }
-            finally
-            {
-                if (done)
+                try
                 {
-                    IsLoading = false;
+                    //_computer.Accept(_visitor);
+
+                    foreach (var item in Hardware.ToList())
+                    {
+                        item.Refresh();
+                    }
+                }
+                finally
+                {
+                    if (done)
+                    {
+                        IsLoading = false;
+                    }
                 }
             }
         }

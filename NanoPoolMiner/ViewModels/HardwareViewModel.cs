@@ -168,13 +168,56 @@ namespace NanoPoolMiner.ViewModels
                     {
                         Name = item.Name,
                         Value = item.Value.Value,
-                        Type = item.SensorType.ToString()
+                        Type = GetSensorType(item.SensorType)
                     });
                 }
             }
 
             _sensors = ss;
             NotifyOfPropertyChange(() => Sensors);
+        }
+
+        private string GetSensorType(SensorType sensorType)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(sensorType.ToString());
+
+            switch (sensorType)
+            {
+                case SensorType.Voltage:
+                    sb.Append("V/mV");
+                    break;
+                case SensorType.Clock:
+                    sb.Append("MHz");
+                    break;
+                case SensorType.Temperature:
+                    sb.Append("°C");
+                    break;
+                case SensorType.Load:
+                    sb.Append("%");
+                    break;
+                case SensorType.Fan:
+                    sb.Append("RPM");
+                    break;
+                case SensorType.Flow:
+                    break;
+                case SensorType.Control:
+                    sb.Append("");
+                    break;
+                case SensorType.Level:
+                    break;
+                case SensorType.Factor:
+                    break;
+                case SensorType.Power:
+                    sb.Append("W");
+                    break;
+                case SensorType.Data:
+                    break;
+                default:
+                    break;
+            }
+
+            return sb.ToString();
         }
 
         public override void Refresh()

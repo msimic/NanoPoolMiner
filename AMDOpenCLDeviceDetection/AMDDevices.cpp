@@ -6,6 +6,14 @@ using namespace std;
 
 namespace OpenCLDevices
 {
+	public enum class Vendor
+	{
+		Unknown,
+		AMD,
+		Intel,
+		nVidia
+	};
+
 	public ref class OpenCLDevice {
 	public:
 		property unsigned int DeviceID;
@@ -15,7 +23,10 @@ namespace OpenCLDevices
 		property String^ OPENCL_DEVICE_VENDOR;
 		property String^ OPENCL_DEVICE_VERSION;
 		property String^ OPENCL_DRIVER_VERSION;
-		property int AMD_BUS_ID; // -1 indicates that it is not set
+		property Vendor Manufacturer;
+		property int BUS_ID; // -1 indicates that it is not set
+		property int SLOT_ID; // -1 indicates that it is not set
+		property int PCI_ID; // -1 indicates that it is not set
 	};
 
 	public ref class Platform {
@@ -25,7 +36,7 @@ namespace OpenCLDevices
 		property List<OpenCLDevice^>^ Devices;
 	};
 
-	public ref class AMDDevices
+	public ref class ComputeDevices
 	{
 	private:
 	public:
@@ -59,7 +70,30 @@ namespace OpenCLDevices
 					device->OPENCL_DEVICE_VENDOR = gcnew String(dev._CL_DEVICE_VENDOR.c_str());
 					device->OPENCL_DEVICE_VERSION = gcnew String(dev._CL_DEVICE_VERSION.c_str());
 					device->OPENCL_DRIVER_VERSION = gcnew String(dev._CL_DRIVER_VERSION.c_str());
-					device->AMD_BUS_ID = dev.AMD_BUS_ID;
+					device->BUS_ID = -1;
+					device->SLOT_ID = -1;
+					device->PCI_ID = -1;
+
+					if (dev.AMD_BUS_ID > -1)
+					{
+						device->BUS_ID = dev.AMD_BUS_ID;
+						device->Manufacturer = Vendor::AMD;
+					}
+					else if (dev.INTEL_BUS_ID > -1)
+					{
+						device->PCI_ID = dev.INTEL_BUS_ID;
+						device->Manufacturer = Vendor::Intel;
+					}
+					else if (dev.NVIDIA_BUS_ID > -1 && dev.NVIDIA_SLOT_ID > -1)
+					{
+						device->BUS_ID = dev.NVIDIA_BUS_ID;
+						device->SLOT_ID = dev.NVIDIA_SLOT_ID;
+						device->Manufacturer = Vendor::nVidia;
+					}
+					else
+					{
+						device->Manufacturer = Vendor::Unknown;
+					}
 
 					platform->Devices->Add(device);
 				}

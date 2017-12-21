@@ -4,8 +4,10 @@
 #define CL_USE_DEPRECATED_OPENCL_2_0_APIS
 #define CL_VERSION_1_2
 //#define CL_USE_DEPRECATED_OPENCL_1_1_APIS
-
+#pragma warning (push)
+#pragma warning (disable:4005)
 #include "cl_ext.hpp"
+#pragma warning (pop)
 
 #include <time.h>
 #include <functional>

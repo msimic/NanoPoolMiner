@@ -11,6 +11,8 @@ using namespace cl;
 
 #define CL_DEVICE_PCI_BUS_ID_NV 0x4008
 #define CL_DEVICE_PCI_SLOT_ID_NV 0x4009
+#define WRITE_NV(dev) (((dev.NVIDIA_BUS_ID > -1 && dev.NVIDIA_SLOT_ID > -1) ? ("\"" + std::to_string(dev.NVIDIA_BUS_ID) + ":" + std::to_string(dev.NVIDIA_SLOT_ID) + "\"") : "null"))
+#define WRITE_BUS(dev) (dev >= 0 ? "\"" + std::to_string(dev) + "\"" : "null")
 
 AMDOpenCLDeviceDetection::AMDOpenCLDeviceDetection()
 {
@@ -151,20 +153,20 @@ void AMDOpenCLDeviceDetection::PrintDevicesJson() {
 	cout << "[" << endl;
 
 	{
-		int devPlatformsComma = _devicesPlatformsDevices.size();
+		std::size_t devPlatformsComma = _devicesPlatformsDevices.size();
 		for (const auto &jsonLog : _devicesPlatformsDevices) {
 			cout << "\t{" << endl;
 			cout << "\t\t\"PlatformName\": \"" << jsonLog.PlatformName << "\"" << "," << endl;
 			cout << "\t\t\"PlatformNum\": " << jsonLog.PlatformNum << "," << endl;
 			cout << "\t\t\"Devices\" : [" << endl;
 			// device print
-			int devComma = jsonLog.Devices.size();
+			std::size_t devComma = jsonLog.Devices.size();
 			for (const auto &dev : jsonLog.Devices) {
 				cout << "\t\t\t{" << endl;
 				cout << "\t\t\t\t\"" << "DeviceID" << "\" : " << dev.DeviceID << "," << endl; // num
-				cout << "\t\t\t\t\"" << "AMD_BUS_ID" << "\" : " << dev.AMD_BUS_ID << "," << endl; // num
-				cout << "\t\t\t\t\"" << "NVIDIA_BUS" << "\" : " << dev.NVIDIA_BUS_ID << ":" << dev.NVIDIA_SLOT_ID << "," << endl; // num
-				cout << "\t\t\t\t\"" << "INTEL_BUS_ID" << "\" : " << dev.INTEL_BUS_ID << "," << endl; // num
+				cout << "\t\t\t\t\"" << "AMD_BUS_ID" << "\" : " << WRITE_BUS(dev.AMD_BUS_ID) << "," << endl; // num
+				cout << "\t\t\t\t\"" << "NVIDIA_BUS" << "\" : " << WRITE_NV(dev) << "," << endl; // num
+				cout << "\t\t\t\t\"" << "INTEL_BUS_ID" << "\" : " << WRITE_BUS(dev.INTEL_BUS_ID) << "," << endl; // num
 				cout << "\t\t\t\t\"" << "_CL_DEVICE_NAME" << "\" : \"" << dev._CL_DEVICE_NAME << "\"," << endl;
 				cout << "\t\t\t\t\"" << "_CL_DEVICE_TYPE" << "\" : \"" << dev._CL_DEVICE_TYPE << "\"," << endl; 
 				cout << "\t\t\t\t\"" << "_CL_DEVICE_GLOBAL_MEM_SIZE" << "\" : " << dev._CL_DEVICE_GLOBAL_MEM_SIZE << "," << endl; // num
@@ -181,23 +183,24 @@ void AMDOpenCLDeviceDetection::PrintDevicesJson() {
 	cout << "]" << endl;
 }
 
-
 void AMDOpenCLDeviceDetection::PrintDevicesJsonDirty() {
 	cout << "[";
 
 	{
-		int devPlatformsComma = _devicesPlatformsDevices.size();
+		std::size_t devPlatformsComma = _devicesPlatformsDevices.size();
 		for (const auto &jsonLog : _devicesPlatformsDevices) {
 			cout << "{";
 			cout << "\"PlatformName\": \"" << jsonLog.PlatformName << "\"" << ",";
 			cout << "\"PlatformNum\": " << jsonLog.PlatformNum << ",";
 			cout << "\"Devices\" : [";
 			// device print
-			int devComma = jsonLog.Devices.size();
+			std::size_t devComma = jsonLog.Devices.size();
 			for (const auto &dev : jsonLog.Devices) {
 				cout << "{";
 				cout << "\"" << "DeviceID" << "\" : " << dev.DeviceID << ","; // num
-				cout << "\"" << "AMD_BUS_ID" << "\" : " << dev.AMD_BUS_ID << ","; // num
+				cout << "\"" << "AMD_BUS_ID" << "\" : " << WRITE_BUS(dev.AMD_BUS_ID) << ","; // num
+				cout << "\"" << "NVIDIA_BUS" << "\" : " << WRITE_NV(dev) << ","; // num
+				cout << "\"" << "INTEL_BUS_ID" << "\" : " << WRITE_BUS(dev.INTEL_BUS_ID) << ","; // num
 				cout << "\"" << "_CL_DEVICE_NAME" << "\" : \"" << dev._CL_DEVICE_NAME << "\",";
 				cout << "\"" << "_CL_DEVICE_TYPE" << "\" : \"" << dev._CL_DEVICE_TYPE << "\",";
 				cout << "\"" << "_CL_DEVICE_GLOBAL_MEM_SIZE" << "\" : " << dev._CL_DEVICE_GLOBAL_MEM_SIZE << ","; // num

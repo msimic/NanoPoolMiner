@@ -45,7 +45,7 @@
                     <TextBlock VerticalAlignment="Center" xml:space="preserve"></TextBlock>
                 </StackPanel>
             </Grid>
-            <ScrollViewer Grid.Row="1">
+            <ScrollViewer Grid.Row="1" Margin="0,10,0,0">
                 <ItemsControl x:Name="Sensors">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
